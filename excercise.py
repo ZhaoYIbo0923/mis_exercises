@@ -72,6 +72,35 @@ def loginbutton(textbox1,textbox2):###对按钮的命令进行函数定义，并
 def logoutbutton(textbox1,textbox2):
     top.destroy()
 top.mainloop()
-     
+import matplotlib.pyplot as plt###引用第三方库
+import numpy as np
+g1=(0,0.9,0)###调颜色透明度
+g2=(0,0.6,0)
+g3=(0,0.4,0)
+x=np.linspace(-1.00,1.00,100)###首先展示原函数图像
+y=1/(1+36*(x**2))
+plt.plot(x,y,color='red',linewidth=1,linestyle='-',label='f(x)')
+plt.title('18377271 ZYB')
+def lagrange(n):###定义lagrange插值函数
+    x=np.linspace(-1,1,n)
+    l=np.poly1d(0)###多项式初始化
+    for i in range(n):###首先求出关于原函数f（x）的拟合多项式
+        s=np.poly1d(1/(1+36*x[i]*x[i]))
+        for j in range(n):###之后写出lagrange插值公式
+            if i==j:
+                continue
+            else:
+                f1=np.poly1d([1/(x[i]-x[j]),(-x[j])/(x[i]-x[j])])
+                s=s*f1
+        l+=s
+    return l
+plt.plot(x,lagrange(6)(x),linewidth=2,color=g3,label='L5(x)')###对不同分割范围的插值函数进行展示
+plt.plot(x,lagrange(11)(x),linewidth=2,color=g2,label='L10(x)')
+plt.plot(x,lagrange(16)(x),linewidth=2,color=g1,label='L15(x)')
+plt.legend()
+plt.show()
+print(np.poly1d(lagrange(6)))###输出多项式的拟合多项式
+print(np.poly1d(lagrange(11)))
+print(np.poly1d(lagrange(15)))
     
 
